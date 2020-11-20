@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trees properties="" code="" codeval="" msg="">
+    <model path="/src" title="">
+        <tree path="/application" subpath="" title="应用"/>
+        <tree path="/authlication" subpath="" title="权限">
+            <tree path="/authcontrol" title="基础配置"/>
+            <tree path="/authDepartmentManage" title="部门"/>
+            <tree path="/authmenustree" title="菜单"/>
+            <tree path="/authpositionmanage" title="职能"/>
+            <tree path="/authrolemanage" title="角色"/>
+            <tree path="/authusermanage" title="用户"/>
+        </tree>
+    </model>
+</trees>

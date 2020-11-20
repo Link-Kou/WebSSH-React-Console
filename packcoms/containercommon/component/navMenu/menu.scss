@@ -1,0 +1,69 @@
+/**logo高度**/
+$logoheight: 57px;
+
+/**菜单背景颜色*/
+$dropdownMenucolor: #113756;
+
+.app-scrollbars {
+  height: calc(100vh - #{$logoheight});
+}
+
+/**菜单栏**/
+.app-sidebar {
+  /*position: fixed;*/
+  //overflow: auto;
+  position: relative;
+  display: block;
+  z-index: 999;
+  height: calc(100vh - #{$logoheight});
+  background-color: $dropdownMenucolor;
+  /*动画形式进行宽度变化*/
+  transition: width 100ms;
+  -moz-transition: width 100ms; /* Firefox 4 */
+  -webkit-transition: width 100ms; /* Safari and Chrome */
+  -o-transition: width 100ms; /* Opera */
+
+  /**隐藏滚动条并不影响滚动效果**/
+  /*&::-webkit-scrollbar {
+    display: none;
+  }*/
+
+
+  .rs-dropdown.rs-dropdown-open {
+    & > .rs-dropdown-menu {
+      left: 55px;
+
+      & > .rs-dropdown-item-panel {
+        color: #a6a6a6;
+        padding: 10px;
+      }
+    }
+
+  }
+
+  .rs-dropdown-item-panel {
+    color: #fff;
+    padding: 15px 20px;
+  }
+
+  /**文本形式**/
+  .app-dropdown-Item-text {
+    & > a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      & > div {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+      }
+    }
+  }
+
+}
+

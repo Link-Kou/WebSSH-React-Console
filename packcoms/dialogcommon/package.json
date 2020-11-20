@@ -1,0 +1,12 @@
+{
+  "name": "dialogcommon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "ahooks": "^2.6.1",
+    "overlayscrollbars": "^1.13.0",
+    "overlayscrollbars-react": "^0.2.2",
+    "react-sortablejs": "^6.0.0"
+  }
+}

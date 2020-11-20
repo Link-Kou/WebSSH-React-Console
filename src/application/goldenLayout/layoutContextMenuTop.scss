@@ -1,0 +1,90 @@
+#layoutContextMenuTop {
+  height: 28px;
+  font-size: 13px;
+  width: 100%;
+  background-color: #383838;
+  font-weight: bold;
+  user-select: none;
+  display: flex;
+
+  ul.menutop-leve-1 {
+    display: flex;
+    flex: 1;
+    height: 28px;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    list-style: none;
+    overflow: hidden;
+
+    &.right {
+      justify-content: flex-end;
+    }
+
+    & > li {
+      min-width: 35px;
+      padding: 0 10px;
+      height: 28px;
+      text-align: center;
+      line-height: 28px;
+      color: #ffffff;
+    }
+
+    & > li:hover {
+      background-color: #242424;
+
+      & > .menutop-leve-2 {
+        display: block;
+      }
+    }
+  }
+
+  ul.menutop-leve-2 {
+    display: none;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    z-index: 9;
+    top: 26px;
+    list-style: none;
+    overflow: hidden;
+    background-color: #383838;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+
+    & > li:last-child {
+      margin-bottom: 5px;
+    }
+
+    & > li {
+      position: relative;
+      padding-left: 5px;
+      display: flex;
+      height: 28px;
+      margin-top: 5px;
+
+      &:hover {
+        background-color: #242424;
+      }
+
+      div.icons {
+        width: 24px !important;
+        flex: none;
+      }
+
+      div.title {
+        flex: 1;
+        max-width: 180px !important;
+        min-width: 50px;
+        overflow: hidden;
+        text-align: left;
+      }
+
+      div.keyword {
+        margin: 0 10px;
+      }
+
+    }
+  }
+
+
+}

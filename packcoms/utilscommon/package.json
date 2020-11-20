@@ -1,0 +1,10 @@
+{
+  "name": "utilscommon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "lodash": "^4.17.20"
+  }
+}

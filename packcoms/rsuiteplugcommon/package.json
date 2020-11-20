@@ -1,0 +1,10 @@
+{
+  "name": "rsuiteplugcommon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "loaders.css": "^0.1.2",
+    "react-loaders": "^3.0.1"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@listener": [
+        "./src/listener"
+      ],
+      "@resource/*": [
+        "./src/resource/*"
+      ],
+      "@fetch/*": [
+        "./src/fetch/*"
+      ],
+      "@router": [
+        "./src/router"
+      ],
+      "@intl": [
+        "./src/intl"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ]
+    }
+  }
+}

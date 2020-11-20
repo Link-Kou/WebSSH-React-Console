@@ -1,0 +1,24 @@
+#layoutContextMenuBottom {
+  height: 19px;
+  background-color: #0d73d4;
+  display: flex;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 19px;
+
+  & > div {
+    flex: 1;
+  }
+
+  div.right {
+    display: flex;
+    justify-content: flex-end;
+
+    div {
+      min-width: 60px;
+      max-width: 120px;
+      overflow: hidden;
+      text-align: center;
+    }
+  }
+}

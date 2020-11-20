@@ -1,0 +1,138 @@
+/**tab框高度**/
+$tabsheight: 30px;
+/**tab框高度**/
+$selctTabsheight: 35px;
+
+.header-tabs {
+  flex: 1;
+  display: flex;
+  margin-left: 5px;
+  overflow: hidden;
+  min-width: 500px;
+
+  .header-tabs-box {
+    display: flex;
+    width: 100%;
+    margin-top: 5px;
+    position: relative;
+  }
+
+  .header-tabs-base {
+    display: flex;
+    flex: 1;
+    background-color: #fff;
+    overflow: hidden;
+    align-items: flex-end;
+  }
+
+  .app-close {
+    position: absolute;
+    z-index: 999;
+    right: -6px;
+    top: -5px;
+  }
+
+  .header-tabs-tabitem-select {
+    background-color: #0e4c7d !important;
+    position: relative;
+    height: $selctTabsheight !important;
+    box-shadow: 0px -1px 3px 1px rgba(39, 39, 39, 0.27);
+
+    > .header-tabs-tabitem-content {
+      color: #ffffff;
+    }
+
+    .app-close {
+      display: none !important;
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: #003966 !important;
+
+      .app-close {
+        display: none !important;
+      }
+    }
+  }
+
+  .header-tabs-tabitem {
+    position: relative;
+    max-width: 100px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: $tabsheight;
+    padding: 5px;
+    margin: 0 8px 0 0;
+    border: 1px solid #e8e8e8;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    top: 0;
+
+    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+    outline: none;
+    cursor: pointer;
+
+    .app-close {
+      display: none;
+    }
+
+    &:hover {
+      background-color: #e5e5e5;
+      box-shadow: 0px -1px 3px 1px rgba(39, 39, 39, 0.27);
+
+      .app-close {
+        display: block;
+      }
+    }
+
+    .header-tabs-tabitem-content {
+      width: 100px;
+      text-align: center;
+      text-wrap: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; /*兼容IE*/
+    }
+
+    i:hover {
+      cursor: default;
+      color: #000;
+      font-weight: 800;
+    }
+  }
+
+  .ant-tabs-bar {
+    border-bottom: none !important;
+  }
+
+  .TabsSpan {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .header-tabs-basetool {
+    display: flex;
+    width: 50px;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
+  }
+
+}
+
+
+.app-menu-panel {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #e5e5ea;
+  overflow: hidden;
+  box-shadow: 0 1px 8px 1px rgba(39, 39, 39, 0.06);
+}

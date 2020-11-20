@@ -1,0 +1,25 @@
+@import '~overlayscrollbars/css/OverlayScrollbars.css';
+@import './lib/overlayScrollbars/os-theme-thin-light.css';
+@import './lib/overlayScrollbars/os-theme-thin-dark.css';
+@import './lib/overlayScrollbars/os-theme-round-dark.css';
+@import './lib/overlayScrollbars/use-theme-thin-dark.css';
+
+.app-base {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  overflow: hidden;
+
+  .app-left {
+    border-right: 1px solid #f2f2f5;
+    box-shadow: 0 .5rem 1rem rgba(34,41,47,.15)!important;
+    z-index: 999;
+  }
+
+  .app-right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+}
