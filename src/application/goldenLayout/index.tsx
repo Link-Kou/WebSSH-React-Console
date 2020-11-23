@@ -6,6 +6,7 @@ import LayoutContextMenuBottom from './layoutContextMenuBottom';
 import {utilsGuid, utilsRef} from 'utilscommon';
 import {Historys} from '@router';
 import {Alert} from 'rsuite';
+import {Terminal} from 'xterm';
 
 /**
  *
@@ -19,9 +20,12 @@ export default class GoldenLayoutIndex extends React.Component {
 
     public webSocket: IWebSocket | undefined;
 
+    public xterm: Terminal | undefined;
+
     componentWillMount() {
         const {location} = this.props as any
         const {state} = location
+        return;
         if (state) {
             this.webSocket = {
                 endpoint: state.endpoint,
@@ -77,20 +81,62 @@ export default class GoldenLayoutIndex extends React.Component {
 
     }
 
+    /**
+     * 新建终端
+     * @param id
+     */
+    handleNewXterm = (id?: string) => {
+        const layoutUtil = this._goldenLayoutComponent?.current?.layoutUtil();
+        if (id) {
+            //document.getElementById('menu-terminal-id')?.click()
+            layoutUtil?.addTab(id, {
+                id: utilsGuid.nanoid(),
+                title: '新窗口',
+                component: 'XtermPanel',
+                webSocket: this.webSocket
+            })
+        } else {
+            layoutUtil?.addTabs({
+                id: utilsGuid.nanoid(),
+                title: '新窗口',
+                component: 'XtermPanel',
+                webSocket: this.webSocket
+            })
+        }
+    }
+
+    /**
+     * 复制
+     */
+    handleCopey = () => {
+        const selection = this.xterm?.getSelection() ?? ''
+        navigator.clipboard.writeText(selection);
+        Alert.success('复制成功')
+    }
+
+    /**
+     * 粘贴
+     */
+    handlePaste = () => {
+        //需要权限
+        navigator.clipboard.readText().then(clipText => {
+            this.xterm?.write(clipText);
+        })
+    }
+
+
     render() {
         return (
             <div>
-                <LayoutContextMenuTop onNewTerminal={() => {
-                    const layoutUtil = this._goldenLayoutComponent.current?.layoutUtil();
-                    layoutUtil?.addTabs({
-                        id: utilsGuid.nanoid(),
-                        title: '新窗口',
-                        component: 'XtermPanel',
-                        webSocket: this.webSocket
-                    })
-                }}/>
+                <LayoutContextMenuTop onNewTerminal={this.handleNewXterm}
+                                      onPaste={this.handlePaste}
+                                      onCopy={this.handleCopey}/>
                 <GoldenLayoutComponent
                     ref={this._goldenLayoutComponent}
+                    onNewXterm={this.handleNewXterm}
+                    onFocus={(id, xterm) => {
+                        this.xterm = xterm;
+                    }}
                     containerStyle={{height: 'calc(100vh - 47px)', width: '100%'}}
                     fill={true}
                     config={{

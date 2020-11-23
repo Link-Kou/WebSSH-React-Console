@@ -26,6 +26,19 @@ interface IProps {
      */
     onCursorMove?(props: { x: number, y: number, width: number, height: number, col: number, row: number }): void
 
+    /**
+     * 获取焦点
+     * @param id
+     * @param xterm
+     */
+    onFocus?(id: string, xterm: Terminal): void
+
+    /**
+     * 新建终端
+     * @param id
+     */
+    onNewXterm?(id: string): void
+
     [x: string]: any
 }
 
@@ -88,15 +101,12 @@ export default class XtermPanel extends React.Component<IProps, any> {
      *
      */
     componentDidMount() {
-        const {onListenResize, onCursorMove, glContainer} = this.props
-        onListenResize?.(glContainer?._config?.id, (width) => {
-            this.setState({
-                width
-            }, () => {
-                this._onResize()
-            })
-        })
+        const {onListenResize, onCursorMove, onFocus, glContainer} = this.props
         if (this.container) {
+            const id = glContainer?._config?.id ?? '';
+            if (typeof id !== 'string') {
+                return;
+            }
             const container = this.container
             this.xterm = new Terminal({
                 fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -116,6 +126,10 @@ export default class XtermPanel extends React.Component<IProps, any> {
             this.xterm.loadAddon(this.searchAddon);
             this.xterm.unicode.activeVersion = '11';
             this.xterm.open(container);
+            //焦点事件
+            this.xterm?.textarea?.addEventListener('focus', () => {
+                onFocus?.(glContainer?._config?.id, this.xterm as Terminal);
+            })
             //获取到光标位置
             this.xterm.onCursorMove(() => {
                 const xterm: any = this.xterm;
@@ -141,7 +155,12 @@ export default class XtermPanel extends React.Component<IProps, any> {
                     this.handlePaste()
                     return false;
                 }
-                return true;
+                // Ctrl + Shift + N
+                if (e.ctrlKey && e.shiftKey && (e.keyCode === 78)) {
+                    this.handleNewXterm()
+                    return false;
+                }
+                return false;
             });
             this.xterm.write('\n\x1b[G');
             this.xterm.writeln('┌──────────────────────────┐');
@@ -188,7 +207,14 @@ export default class XtermPanel extends React.Component<IProps, any> {
                     //this.xterm?.write(key);
                 }
             })*/
-            this.fitAddon.fit();
+            this.fitAddon?.fit?.();
+            onListenResize?.(id, (width) => {
+                this.setState({
+                    width
+                }, () => {
+                    this._onResize()
+                })
+            })
             this.WebSocketInitialization();
         }
     }
@@ -244,6 +270,14 @@ export default class XtermPanel extends React.Component<IProps, any> {
                     onFind={this.handleFind}
                     onClear={this.handleClear}/>
             </LayoutContextMenuRight>, node)
+    }
+
+    /**
+     * 新建终端
+     */
+    handleNewXterm = () => {
+        const {onNewXterm, glContainer} = this.props
+        onNewXterm?.(glContainer?._config?.id)
     }
 
     /**

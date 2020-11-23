@@ -1,8 +1,13 @@
 import * as React from 'react';
 import './layoutContextMenuTop.scss'
+import key from 'keymaster'
 
 interface IProps {
     onNewTerminal?(): void
+
+    onCopy?(): void
+
+    onPaste?(): void
 }
 
 /**
@@ -13,8 +18,18 @@ interface IProps {
  */
 export default class LayoutContextMenuTop extends React.Component<IProps> {
 
+    componentDidMount() {
+        key('ctrl+shift+n', () => {
+            this.handleNewTerminal()
+        });
+    }
+
+    handleNewTerminal = () => {
+        document.getElementById('menu-terminal-id')?.click()
+    }
+
     render() {
-        const {onNewTerminal} = this.props
+        const {onNewTerminal, onCopy, onPaste} = this.props
         return (
             <div id={'layoutContextMenuTop'}>
                 <ul className={'menutop-leve-1'}>
@@ -37,12 +52,12 @@ export default class LayoutContextMenuTop extends React.Component<IProps> {
                     <li>
                         编辑
                         <ul className={'menutop-leve-2'}>
-                            <li>
+                            <li onClick={() => onCopy?.()}>
                                 <div className={'icons'}/>
                                 <div className={'title'}>复制</div>
                                 <div className={'keyword'}>Ctrl Shift C</div>
                             </li>
-                            <li>
+                            <li onClick={() => onPaste?.()}>
                                 <div className={'icons'}/>
                                 <div className={'title'}>粘贴</div>
                                 <div className={'keyword'}>Ctrl Shift V</div>
@@ -55,7 +70,7 @@ export default class LayoutContextMenuTop extends React.Component<IProps> {
                     <li>
                         终端
                         <ul className={'menutop-leve-2'}>
-                            <li onClick={() => onNewTerminal?.()}>
+                            <li id={'menu-terminal-id'} onClick={() => onNewTerminal?.()}>
                                 <div className={'icons'}/>
                                 <div className={'title'}>新建终端</div>
                                 <div className={'keyword'}>Ctrl Shift N</div>

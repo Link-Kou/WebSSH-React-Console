@@ -17,7 +17,7 @@ export default class LayoutUtils {
      */
     public addTabs(props: { id: string, title: string, component: string, [x: string]: any }) {
         const {id, title, component} = props
-        this._layout?.root?.contentItems[0].addChild({
+        this._layout?.root?.contentItems?.[0]?.addChild?.({
             ...props,
             id: id,
             title: title,

@@ -11,7 +11,9 @@ import GoldenLayout, {
 import 'golden-layout/src/css/goldenlayout-base.css';
 import 'golden-layout/src/css/goldenlayout-dark-theme.css';
 import $ from 'jquery';
+import {Terminal} from 'xterm';
 import LayoutUtils from './layoutUtils';
+
 
 interface IState {
     renderPanels?: any
@@ -61,6 +63,20 @@ interface IProps {
      */
     onStackCreated?(stack: any): void
 
+    /**
+     * 获取焦点
+     * @param id
+     * @param xterm
+     */
+    onFocus?(id: string, xterm: Terminal): void
+
+    /**
+     * 新建终端
+     * @param id
+     * @param xterm
+     */
+    onNewXterm?(id: string): void
+
     register?: (layout: GoldenLayout) => void
 }
 
@@ -74,6 +90,7 @@ export class GoldenLayoutComponent extends React.Component<IProps, IState> {
     public goldenLayoutInstance: GoldenLayout | undefined;
 
     public onListenResizeMap = new Map();
+
 
     public layoutUtil = (): LayoutUtils => {
         return new LayoutUtils(this.goldenLayoutInstance)
@@ -138,13 +155,15 @@ export class GoldenLayoutComponent extends React.Component<IProps, IState> {
             tab?.closeElement
                 ?.off('click')
                 ?.click(() => {
-                    const tabClose = onTabClose?.(tab.titleElement.html()) ?? undefined;
-                    if (typeof tabClose === 'boolean') {
-                        if (tabClose) {
+                    if (document.getElementsByClassName('lm_tab')?.length > 1) {
+                        const tabClose = onTabClose?.(tab.titleElement.html()) ?? undefined;
+                        if (typeof tabClose === 'boolean') {
+                            if (tabClose) {
+                                tab.contentItem.remove();
+                            }
+                        } else if (window.confirm('是否关闭此Tab')) {
                             tab.contentItem.remove();
                         }
-                    } else if (window.confirm('是否关闭此Tab')) {
-                        tab.contentItem.remove();
                     }
                 });
         });
@@ -166,10 +185,15 @@ export class GoldenLayoutComponent extends React.Component<IProps, IState> {
     }
 
     render() {
-        const {containerStyle, containerAttrs} = this.props
+        const {containerStyle, containerAttrs, onFocus, onNewXterm} = this.props
         const panels: Array<any> = Array.from(this.state.renderPanels || []);
         return (
             <div id={'goldenLayoutComponent'} ref={this.containerRef} style={containerStyle} {...containerAttrs}>
+                <div id={'click-goldenLayoutComponent-id'} onClick={() => {
+                    const elementById = document.getElementById('click-goldenLayoutComponent-id');
+                    const attribute = elementById?.getAttribute?.('attr-id');
+                    onNewXterm?.(attribute ?? '')
+                }}/>
                 {panels.map((panel, index) => {
                     return ReactDOM.createPortal(
                         React.cloneElement(panel._getReactComponent(), {
@@ -180,6 +204,14 @@ export class GoldenLayoutComponent extends React.Component<IProps, IState> {
                              */
                             onListenResize: (id: string, fc: (width: number) => void) => {
                                 this.onListenResizeMap.set(id, fc);
+                            },
+                            onFocus: (id: string, xterm: any) => {
+                                onFocus?.(id, xterm)
+                            },
+                            onNewXterm: (id: string) => {
+                                const elementById = document.getElementById('click-goldenLayoutComponent-id');
+                                elementById?.setAttribute('attr-id', id)
+                                elementById?.click()
                             }
                         }),
                         panel._container.getElement()[0]
@@ -207,8 +239,8 @@ class ReactComponentHandlerPatched extends ReactComponentHandler {
     }
 
     _destroy() {
-        this.__container.off('open', this._render, this);
-        this.__reactClass.off('destroy', this._destroy, this);
+        this.__container?.off?.('open', this._render, this);
+        this.__reactClass?.off?.('destroy', this._destroy, this);
     }
 
     _getReactComponent() {
